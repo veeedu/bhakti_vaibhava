@@ -45,30 +45,47 @@
       color: red;
       margin-top: 1rem;
     }
+    .admin-container {
+      text-align: left;
+      max-width: 500px;
+    }
+    .admin-container a {
+      display: block;
+      margin: 0.5rem 0;
+      color: #007bff;
+      text-decoration: none;
+    }
+    .admin-container a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="container" id="loginContainer">
     <h2>Login</h2>
-    <input type="number" id="userid" placeholder="User ID (1-10)" min="1" max="10"><br>
+    <input type="text" id="userid" placeholder="User ID or Admin"><br>
     <input type="password" id="password" placeholder="Password"><br>
     <button onclick="login()">Login</button>
     <div id="error" class="error"></div>
   </div>
 
+  <div class="container admin-container" id="adminContainer" style="display:none;">
+    <h2>Admin Dashboard</h2>
+    <div id="userLinks"></div>
+  </div>
+
   <script>
-    // Hardcoded credentials and links
     const users = {
-      1: { password: "BCaiSAtMax", link: "https://docs.google.com/spreadsheets/d/1aSlqlrldxtHLmwraC1_8O60xfnzivNTlriXIr0_jxqY/edit?gid=0#gid=0" }, //Mukunda
-      2: { password: "Poopoo", link: "https://docs.google.com/spreadsheets/d/1F9zgXspYmYNUXbI9R0Gy62w0ccilx89qHUUbLoFPnJQ/edit?gid=0#gid=0" }, //Vedanta
-      3: { password: "92746158", link: "https://docs.google.com/spreadsheets/d/1MH1AzhpbOrRtXfNJK-OgnR3P1yGEtBanDjVTpvv7x3k/edit?gid=0#gid=0" }, //Mahamantra
-      4: { password: "BuffFelow", link: "https://docs.google.com/spreadsheets/d/1g0utDbnP8mFLRz4iqjiOBpzydSipGVkNPb462stlSKQ/edit?gid=0#gid=0" }, //sakasi
-      5: { password: "h2wc338ty", link: "https://docs.google.com/spreadsheets/d/19SiK63q1DnHiqfD9iHuLBXmzLywaH4mZylksYStr-_0/edit?gid=0#gid=0" }, //Ramachandra
-      6: { password: "AbbyCrabby", link: "https://docs.google.com/spreadsheets/d/1sMpmwQvJRKx90uurE_AD0s2fh99gUL_keMTUGCm5yrA/edit?gid=0#gid=0" }, //abhay
-      7: { password: "9837762", link: "https://docs.google.com/spreadsheets/d/1PKGnYchVkielAUGzsOtUFVwE6y8Wqp3akIZE6WD1TIA/edit?gid=0#gid=0" }, //Krishnadas
-      8: { password: "Parachute", link: "https://docs.google.com/spreadsheets/d/1Dt1uMLtbUYWSkm1RSLm6QIIi85YFOfEEcgndoMSe-UM/edit?gid=0#gid=0" }, // Parishit
-      9: { password: "Bombino", link: "https://docs.google.com/spreadsheets/d/1Kq-PMvLBQbj5bsa76Qh7t2C7FbE99ERTIT6U7MBvuPc/edit?gid=0#gid=0" }, // Nitay
-      10:{ password: "Satelllite", link: "https://docs.google.com/spreadsheets/d/1YOzQJVePJUKh75xiPFoZcRrpYim8YAJF-s89woXN0Fk/edit?gid=0#gid=0" }, // haritosh
+      1: { password: "BCaiSAtMax", name: "Mukunda", link: "https://docs.google.com/spreadsheets/d/1aSlqlrldxtHLmwraC1_8O60xfnzivNTlriXIr0_jxqY/edit?gid=0#gid=0" },
+      2: { password: "Poopoo", name: "Vedanta", link: "https://docs.google.com/spreadsheets/d/1F9zgXspYmYNUXbI9R0Gy62w0ccilx89qHUUbLoFPnJQ/edit?gid=0#gid=0" },
+      3: { password: "92746158", name: "Mahamantra", link: "https://docs.google.com/spreadsheets/d/1MH1AzhpbOrRtXfNJK-OgnR3P1yGEtBanDjVTpvv7x3k/edit?gid=0#gid=0" },
+      4: { password: "BuffFelow", name: "Sakasi", link: "https://docs.google.com/spreadsheets/d/1g0utDbnP8mFLRz4iqjiOBpzydSipGVkNPb462stlSKQ/edit?gid=0#gid=0" },
+      5: { password: "h2wc338ty", name: "Ramachandra", link: "https://docs.google.com/spreadsheets/d/19SiK63q1DnHiqfD9iHuLBXmzLywaH4mZylksYStr-_0/edit?gid=0#gid=0" },
+      6: { password: "AbbyCrabby", name: "Abhay", link: "https://docs.google.com/spreadsheets/d/1sMpmwQvJRKx90uurE_AD0s2fh99gUL_keMTUGCm5yrA/edit?gid=0#gid=0" },
+      7: { password: "9837762", name: "Krishnadas", link: "https://docs.google.com/spreadsheets/d/1PKGnYchVkielAUGzsOtUFVwE6y8Wqp3akIZE6WD1TIA/edit?gid=0#gid=0" },
+      8: { password: "Parachute", name: "Parishit", link: "https://docs.google.com/spreadsheets/d/1Dt1uMLtbUYWSkm1RSLm6QIIi85YFOfEEcgndoMSe-UM/edit?gid=0#gid=0" },
+      9: { password: "Bombino", name: "Nitay", link: "https://docs.google.com/spreadsheets/d/1Kq-PMvLBQbj5bsa76Qh7t2C7FbE99ERTIT6U7MBvuPc/edit?gid=0#gid=0" },
+      10:{ password: "Satelllite", name: "Haritosh", link: "https://docs.google.com/spreadsheets/d/1YOzQJVePJUKh75xiPFoZcRrpYim8YAJF-s89woXN0Fk/edit?gid=0#gid=0" },
     };
 
     function login() {
@@ -76,8 +93,27 @@
       const pwd = document.getElementById("password").value;
       const error = document.getElementById("error");
 
+      // Admin login
+      if(id.toLowerCase() === "admin" && pwd === "Admin@BV@108") {
+        document.getElementById("loginContainer").style.display = "none";
+        document.getElementById("adminContainer").style.display = "block";
+
+        const container = document.getElementById("userLinks");
+        container.innerHTML = ""; // clear previous content
+        for (const key in users) {
+          const user = users[key];
+          const link = document.createElement("a");
+          link.href = user.link;
+          link.target = "_blank";
+          link.textContent = `${user.name} (ID: ${key})`;
+          container.appendChild(link);
+        }
+        return;
+      }
+
+      // Regular user login
       if (users[id] && users[id].password === pwd) {
-        window.location.href = users[id].link; // Redirect
+        window.location.href = users[id].link;
       } else {
         error.textContent = "Invalid User ID or Password!";
       }
