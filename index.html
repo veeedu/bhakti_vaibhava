@@ -63,7 +63,7 @@
 <body>
   <div class="container" id="loginContainer">
     <h2>Login</h2>
-    <input type="text" id="userid" placeholder="User ID or Admin"><br>
+    <input type="text" id="userid" placeholder="User ID 1-10"><br>
     <input type="password" id="password" placeholder="Password"><br>
     <button onclick="login()">Login</button>
     <div id="error" class="error"></div>
@@ -94,7 +94,7 @@
       const error = document.getElementById("error");
 
       // Admin login
-      if(id.toLowerCase() === "admin" && pwd === "Admin@BV@108") {
+      if(id.toLowerCase() === "88" && pwd === "Admin@BV@108") {
         document.getElementById("loginContainer").style.display = "none";
         document.getElementById("adminContainer").style.display = "block";
 
