@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login Redirect</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: center;
+    }
+    input {
+      width: 90%;
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 0.7rem;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .error {
+      color: red;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Login</h2>
+    <input type="number" id="userid" placeholder="User ID (1-10)" min="1" max="10"><br>
+    <input type="password" id="password" placeholder="Password"><br>
+    <button onclick="login()">Login</button>
+    <div id="error" class="error"></div>
+  </div>
+
+  <script>
+    // Hardcoded credentials and links
+    const users = {
+      1: { password: "pass1", link: "https://docs.google.com/spreadsheets/d/1aSlqlrldxtHLmwraC1_8O60xfnzivNTlriXIr0_jxqY/edit?gid=0#gid=0" },
+      2: { password: "pass2", link: "https://example.com/2" },
+      3: { password: "pass3", link: "https://example.com/3" },
+      4: { password: "pass4", link: "https://example.com/4" },
+      5: { password: "pass5", link: "https://example.com/5" },
+      6: { password: "pass6", link: "https://example.com/6" },
+      7: { password: "pass7", link: "https://example.com/7" },
+      8: { password: "pass8", link: "https://example.com/8" },
+      9: { password: "pass9", link: "https://example.com/9" },
+      10:{ password: "pass10", link: "https://example.com/10" },
+    };
+
+    function login() {
+      const id = document.getElementById("userid").value;
+      const pwd = document.getElementById("password").value;
+      const error = document.getElementById("error");
+
+      if (users[id] && users[id].password === pwd) {
+        window.location.href = users[id].link; // Redirect
+      } else {
+        error.textContent = "Invalid User ID or Password!";
+      }
+    }
+  </script>
+</body>
+</html>
